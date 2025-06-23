@@ -48,6 +48,9 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\_threading_local.py',
    'PYMODULE'),
+  ('add_files',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\add_files.py',
+   'PYMODULE'),
   ('argparse',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\argparse.py',
@@ -67,6 +70,9 @@
   ('bmencoder',
    'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\bmencoder.py',
    'PYMODULE'),
+  ('brute_force_decode_array',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\brute_force_decode_array.py',
+   'PYMODULE'),
   ('bz2',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\bz2.py',
@@ -74,6 +80,9 @@
   ('calendar',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\calendar.py',
+   'PYMODULE'),
+  ('context_menu',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\context_menu.py',
    'PYMODULE'),
   ('contextlib',
    'C:\\Program '
@@ -90,14 +99,6 @@
   ('csv',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\csv.py',
-   'PYMODULE'),
-  ('ctypes',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\ctypes\\__init__.py',
-   'PYMODULE'),
-  ('ctypes._endian',
-   'C:\\Program '
-   'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\ctypes\\_endian.py',
    'PYMODULE'),
   ('dataclasses',
    'C:\\Program '
@@ -194,6 +195,12 @@
   ('email.utils',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\email\\utils.py',
+   'PYMODULE'),
+  ('extract_all_files',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\extract_all_files.py',
+   'PYMODULE'),
+  ('extract_selected_file',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\extract_selected_file.py',
    'PYMODULE'),
   ('fnmatch',
    'C:\\Program '
@@ -387,6 +394,9 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\random.py',
    'PYMODULE'),
+  ('save_bm',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\save_bm.py',
+   'PYMODULE'),
   ('selectors',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\selectors.py',
@@ -451,6 +461,9 @@
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\typing.py',
    'PYMODULE'),
+  ('ui_helpers',
+   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\ui_helpers.py',
+   'PYMODULE'),
   ('urllib',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\urllib\\__init__.py',
@@ -474,7 +487,4 @@
   ('zipimport',
    'C:\\Program '
    'Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\\Lib\\zipimport.py',
-   'PYMODULE'),
-  ('zlib_wrapper',
-   'C:\\Users\\freel\\Documents\\majaslapas\\MagicTool\\zlib_wrapper.py',
    'PYMODULE')])

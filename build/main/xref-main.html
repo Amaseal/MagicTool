@@ -24,10 +24,11 @@ imports:
  &#8226;   <a href="#_collections_abc">_collections_abc</a>
  &#8226;   <a href="#_weakrefset">_weakrefset</a>
  &#8226;   <a href="#abc">abc</a>
- &#8226;   <a href="#bmencoder">bmencoder</a>
- &#8226;   <a href="#bz2">bz2</a>
+ &#8226;   <a href="#add_files">add_files</a>
+ &#8226;   <a href="#brute_force_decode_array">brute_force_decode_array</a>
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#collections">collections</a>
+ &#8226;   <a href="#context_menu">context_menu</a>
  &#8226;   <a href="#copyreg">copyreg</a>
  &#8226;   <a href="#datetime">datetime</a>
  &#8226;   <a href="#encodings">encodings</a>
@@ -153,6 +154,8 @@ imports:
  &#8226;   <a href="#encodings.uu_codec">encodings.uu_codec</a>
  &#8226;   <a href="#encodings.zlib_codec">encodings.zlib_codec</a>
  &#8226;   <a href="#enum">enum</a>
+ &#8226;   <a href="#extract_all_files">extract_all_files</a>
+ &#8226;   <a href="#extract_selected_file">extract_selected_file</a>
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#genericpath">genericpath</a>
  &#8226;   <a href="#heapq">heapq</a>
@@ -160,8 +163,6 @@ imports:
  &#8226;   <a href="#keyword">keyword</a>
  &#8226;   <a href="#linecache">linecache</a>
  &#8226;   <a href="#locale">locale</a>
- &#8226;   <a href="#lz4">lz4</a>
- &#8226;   <a href="#lzma">lzma</a>
  &#8226;   <a href="#ntpath">ntpath</a>
  &#8226;   <a href="#operator">operator</a>
  &#8226;   <a href="#os">os</a>
@@ -175,6 +176,7 @@ imports:
  &#8226;   <a href="#re._constants">re._constants</a>
  &#8226;   <a href="#re._parser">re._parser</a>
  &#8226;   <a href="#reprlib">reprlib</a>
+ &#8226;   <a href="#save_bm">save_bm</a>
  &#8226;   <a href="#sre_compile">sre_compile</a>
  &#8226;   <a href="#sre_constants">sre_constants</a>
  &#8226;   <a href="#sre_parse">sre_parse</a>
@@ -183,9 +185,9 @@ imports:
  &#8226;   <a href="#sys">sys</a>
  &#8226;   <a href="#traceback">traceback</a>
  &#8226;   <a href="#types">types</a>
+ &#8226;   <a href="#ui_helpers">ui_helpers</a>
  &#8226;   <a href="#warnings">warnings</a>
  &#8226;   <a href="#weakref">weakref</a>
- &#8226;   <a href="#zlib_wrapper">zlib_wrapper</a>
 
   </div>
 
@@ -348,7 +350,13 @@ imports:
 imported by:
     <a href="#PyQt5.QtCore">PyQt5.QtCore</a>
  &#8226;   <a href="#PyQt5.QtGui">PyQt5.QtGui</a>
+ &#8226;   <a href="#add_files">add_files</a>
+ &#8226;   <a href="#brute_force_decode_array">brute_force_decode_array</a>
+ &#8226;   <a href="#context_menu">context_menu</a>
+ &#8226;   <a href="#extract_all_files">extract_all_files</a>
+ &#8226;   <a href="#extract_selected_file">extract_selected_file</a>
  &#8226;   <a href="#main.py">main.py</a>
+ &#8226;   <a href="#save_bm">save_bm</a>
 
   </div>
 
@@ -629,16 +637,6 @@ imported by:
   <tt>_csv</tt> <span class="moduletype"><i>(builtin module)</i></span>  <div class="import">
 imported by:
     <a href="#csv">csv</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="_ctypes"></a>
-  <tt>_ctypes</tt> <span class="moduletype"><tt>C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\DLLs\_ctypes.pyd</tt></span>  <div class="import">
-imported by:
-    <a href="#ctypes">ctypes</a>
 
   </div>
 
@@ -1303,6 +1301,24 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="add_files"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/add_files.py" type="text/plain"><tt>add_files</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
+ &#8226;   <a href="#datetime">datetime</a>
+ &#8226;   <a href="#os">os</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="argparse"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0/Lib/argparse.py" type="text/plain"><tt>argparse</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -1445,6 +1461,24 @@ imported by:
   <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/bmencoder.py" type="text/plain"><tt>bmencoder</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imported by:
+    <a href="#extract_all_files">extract_all_files</a>
+ &#8226;   <a href="#extract_selected_file">extract_selected_file</a>
+ &#8226;   <a href="#save_bm">save_bm</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="brute_force_decode_array"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/brute_force_decode_array.py" type="text/plain"><tt>brute_force_decode_array</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
+
+  </div>
+  <div class="import">
+imported by:
     <a href="#main.py">main.py</a>
 
   </div>
@@ -1489,7 +1523,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#encodings.bz2_codec">encodings.bz2_codec</a>
- &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#shutil">shutil</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#zipfile">zipfile</a>
@@ -1711,6 +1744,22 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="context_menu"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/context_menu.py" type="text/plain"><tt>context_menu</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="contextlib"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0/Lib/contextlib.py" type="text/plain"><tt>contextlib</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -1825,47 +1874,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="ctypes"></a>
-  <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0/Lib/ctypes/__init__.py" type="text/plain"><tt>ctypes</tt></a>
-<span class="moduletype">Package</span>  <div class="import">
-imports:
-    <a href="#_ctypes">_ctypes</a>
- &#8226;   <a href="#ctypes._endian">ctypes._endian</a>
- &#8226;   <a href="#nt">nt</a>
- &#8226;   <a href="#os">os</a>
- &#8226;   <a href="#struct">struct</a>
- &#8226;   <a href="#sys">sys</a>
- &#8226;   <a href="#types">types</a>
- &#8226;   <a href="#warnings">warnings</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#ctypes._endian">ctypes._endian</a>
- &#8226;   <a href="#zlib_wrapper">zlib_wrapper</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="ctypes._endian"></a>
-  <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0/Lib/ctypes/_endian.py" type="text/plain"><tt>ctypes._endian</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#ctypes">ctypes</a>
- &#8226;   <a href="#sys">sys</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#ctypes">ctypes</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="dataclasses"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0/Lib/dataclasses.py" type="text/plain"><tt>dataclasses</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -1905,6 +1913,7 @@ imported by:
  &#8226;   <a href="#PyQt5.QtGui">PyQt5.QtGui</a>
  &#8226;   <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
  &#8226;   <a href="#_strptime">_strptime</a>
+ &#8226;   <a href="#add_files">add_files</a>
  &#8226;   <a href="#calendar">calendar</a>
  &#8226;   <a href="#email.utils">email.utils</a>
  &#8226;   <a href="#main.py">main.py</a>
@@ -4972,6 +4981,44 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="extract_all_files"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/extract_all_files.py" type="text/plain"><tt>extract_all_files</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
+ &#8226;   <a href="#bmencoder">bmencoder</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#zlib">zlib</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="extract_selected_file"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/extract_selected_file.py" type="text/plain"><tt>extract_selected_file</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
+ &#8226;   <a href="#bmencoder">bmencoder</a>
+ &#8226;   <a href="#os">os</a>
+ &#8226;   <a href="#zlib">zlib</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="fcntl"></a>
   <a target="code" href="" type="text/plain"><tt>fcntl</tt></a>
 <span class="moduletype">MissingModule</span>  <div class="import">
@@ -6096,17 +6143,6 @@ imported by:
 </div>
 
 <div class="node">
-  <a name="lz4"></a>
-  <a target="code" href="" type="text/plain"><tt>lz4</tt></a>
-<span class="moduletype">MissingModule</span>  <div class="import">
-imported by:
-    <a href="#main.py">main.py</a>
-
-  </div>
-
-</div>
-
-<div class="node">
   <a name="lzma"></a>
   <a target="code" href="///C:/Program%20Files/WindowsApps/PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0/Lib/lzma.py" type="text/plain"><tt>lzma</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
@@ -6120,8 +6156,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#main.py">main.py</a>
- &#8226;   <a href="#shutil">shutil</a>
+    <a href="#shutil">shutil</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#zipfile">zipfile</a>
 
@@ -6172,7 +6207,6 @@ imported by:
   <tt>nt</tt> <span class="moduletype"><i>(builtin module)</i></span>  <div class="import">
 imported by:
     <a href="#_colorize">_colorize</a>
- &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#importlib._bootstrap_external">importlib._bootstrap_external</a>
  &#8226;   <a href="#ntpath">ntpath</a>
  &#8226;   <a href="#os">os</a>
@@ -6299,11 +6333,13 @@ imported by:
  &#8226;   <a href="#_pyi_rth_utils">_pyi_rth_utils</a>
  &#8226;   <a href="#_pyi_rth_utils.qt">_pyi_rth_utils.qt</a>
  &#8226;   <a href="#_strptime">_strptime</a>
+ &#8226;   <a href="#add_files">add_files</a>
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#bz2">bz2</a>
  &#8226;   <a href="#contextlib">contextlib</a>
- &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#email.utils">email.utils</a>
+ &#8226;   <a href="#extract_all_files">extract_all_files</a>
+ &#8226;   <a href="#extract_selected_file">extract_selected_file</a>
  &#8226;   <a href="#fnmatch">fnmatch</a>
  &#8226;   <a href="#genericpath">genericpath</a>
  &#8226;   <a href="#getopt">getopt</a>
@@ -6337,7 +6373,6 @@ imported by:
  &#8226;   <a href="#threading">threading</a>
  &#8226;   <a href="#zipfile">zipfile</a>
  &#8226;   <a href="#zipfile._path.glob">zipfile._path.glob</a>
- &#8226;   <a href="#zlib_wrapper">zlib_wrapper</a>
 
   </div>
 
@@ -6859,6 +6894,25 @@ imported by:
 </div>
 
 <div class="node">
+  <a name="save_bm"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/save_bm.py" type="text/plain"><tt>save_bm</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imports:
+    <a href="#PyQt5.QtWidgets">PyQt5.QtWidgets</a>
+ &#8226;   <a href="#bmencoder">bmencoder</a>
+ &#8226;   <a href="#struct">struct</a>
+ &#8226;   <a href="#zlib">zlib</a>
+
+  </div>
+  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
+
+  </div>
+
+</div>
+
+<div class="node">
   <a name="select"></a>
   <tt>select</tt> <span class="moduletype"><tt>C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.1520.0_x64__qbz5n2kfra8p0\DLLs\select.pyd</tt></span>  <div class="import">
 imported by:
@@ -7120,11 +7174,11 @@ imports:
   <div class="import">
 imported by:
     <a href="#base64">base64</a>
- &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#gettext">gettext</a>
  &#8226;   <a href="#gzip">gzip</a>
  &#8226;   <a href="#main.py">main.py</a>
  &#8226;   <a href="#pickle">pickle</a>
+ &#8226;   <a href="#save_bm">save_bm</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#zipfile">zipfile</a>
  &#8226;   <a href="#zipimport">zipimport</a>
@@ -7186,8 +7240,6 @@ imported by:
  &#8226;   <a href="#codecs">codecs</a>
  &#8226;   <a href="#collections">collections</a>
  &#8226;   <a href="#contextlib">contextlib</a>
- &#8226;   <a href="#ctypes">ctypes</a>
- &#8226;   <a href="#ctypes._endian">ctypes._endian</a>
  &#8226;   <a href="#dataclasses">dataclasses</a>
  &#8226;   <a href="#decimal">decimal</a>
  &#8226;   <a href="#dis">dis</a>
@@ -7243,7 +7295,6 @@ imported by:
  &#8226;   <a href="#zipfile">zipfile</a>
  &#8226;   <a href="#zipfile._path">zipfile._path</a>
  &#8226;   <a href="#zipimport">zipimport</a>
- &#8226;   <a href="#zlib_wrapper">zlib_wrapper</a>
 
   </div>
 
@@ -7496,7 +7547,6 @@ imported by:
  &#8226;   <a href="#contextlib">contextlib</a>
  &#8226;   <a href="#copy">copy</a>
  &#8226;   <a href="#csv">csv</a>
- &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#dataclasses">dataclasses</a>
  &#8226;   <a href="#dis">dis</a>
  &#8226;   <a href="#email.headerregistry">email.headerregistry</a>
@@ -7554,6 +7604,17 @@ imported by:
  &#8226;   <a href="#importlib.metadata._meta">importlib.metadata._meta</a>
  &#8226;   <a href="#importlib.resources._common">importlib.resources._common</a>
  &#8226;   <a href="#importlib.resources.abc">importlib.resources.abc</a>
+
+  </div>
+
+</div>
+
+<div class="node">
+  <a name="ui_helpers"></a>
+  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/ui_helpers.py" type="text/plain"><tt>ui_helpers</tt></a>
+<span class="moduletype">SourceModule</span>  <div class="import">
+imported by:
+    <a href="#main.py">main.py</a>
 
   </div>
 
@@ -7635,7 +7696,6 @@ imported by:
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#ast">ast</a>
  &#8226;   <a href="#calendar">calendar</a>
- &#8226;   <a href="#ctypes">ctypes</a>
  &#8226;   <a href="#email.utils">email.utils</a>
  &#8226;   <a href="#enum">enum</a>
  &#8226;   <a href="#functools">functools</a>
@@ -7824,29 +7884,14 @@ imported by:
   <tt>zlib</tt> <span class="moduletype"><i>(builtin module)</i></span>  <div class="import">
 imported by:
     <a href="#encodings.zlib_codec">encodings.zlib_codec</a>
+ &#8226;   <a href="#extract_all_files">extract_all_files</a>
+ &#8226;   <a href="#extract_selected_file">extract_selected_file</a>
  &#8226;   <a href="#gzip">gzip</a>
+ &#8226;   <a href="#save_bm">save_bm</a>
  &#8226;   <a href="#shutil">shutil</a>
  &#8226;   <a href="#tarfile">tarfile</a>
  &#8226;   <a href="#zipfile">zipfile</a>
  &#8226;   <a href="#zipimport">zipimport</a>
-
-  </div>
-
-</div>
-
-<div class="node">
-  <a name="zlib_wrapper"></a>
-  <a target="code" href="///C:/Users/freel/Documents/majaslapas/MagicTool/zlib_wrapper.py" type="text/plain"><tt>zlib_wrapper</tt></a>
-<span class="moduletype">SourceModule</span>  <div class="import">
-imports:
-    <a href="#ctypes">ctypes</a>
- &#8226;   <a href="#os">os</a>
- &#8226;   <a href="#sys">sys</a>
-
-  </div>
-  <div class="import">
-imported by:
-    <a href="#main.py">main.py</a>
 
   </div>
 
