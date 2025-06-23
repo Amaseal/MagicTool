@@ -26,6 +26,7 @@ from save_bm import save_bm
 from ui_helpers import update_file_count_label, search_table
 from brute_force_decode_array import brute_force_decode_array
 from context_menu import open_context_menu, copy_selected_row
+from export_decrypted_file import export_decrypted_file
 
 
 class BMViewer(QMainWindow):
@@ -125,9 +126,15 @@ class BMViewer(QMainWindow):
         self.extract_all_btn.clicked.connect(lambda: extract_all_files(self))
         self.extract_selected_btn = QPushButton("Extract Selected")
         self.extract_selected_btn.clicked.connect(lambda: extract_selected_file(self))
+        self.export_decrypted_btn = QPushButton("Export Decrypted")
+        self.export_decrypted_btn.clicked.connect(lambda: export_decrypted_file(self))
+        self.bruteforce_btn = QPushButton("Brute Force Decode Array")
+        self.bruteforce_btn.clicked.connect(lambda: brute_force_decode_array(self))
         extract_layout.addWidget(self.open_btn)
         extract_layout.addWidget(self.extract_all_btn)
         extract_layout.addWidget(self.extract_selected_btn)
+        # extract_layout.addWidget(self.export_decrypted_btn)
+        # extract_layout.addWidget(self.bruteforce_btn)
         extract_group.setLayout(extract_layout)
 
         # Create BM file group

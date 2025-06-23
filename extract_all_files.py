@@ -2,11 +2,10 @@ import os
 import zlib
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QApplication
 from bmencoder import (
-    BMSNM_DECODE_ARRAY,
-    BRUTEFORCED_DECODE_ARRAY,
     BMEncoder,
     BMGameType,
 )
+from dom_gold_extract_helper import extract_dom_gold_file
 
 
 def extract_all_files(self):
@@ -52,68 +51,19 @@ def extract_all_files(self):
                     elif self.rb_bm_sm.isChecked():
                         game_type = BMGameType.BloodMagicSmokeAndMirrors
                     elif self.rb_dom_gold.isChecked():
+                        # Handle DOM Gold: write plain files directly, use helper for others
                         if file_state == "Plain":
                             out_path = os.path.join(out_dir, file_name)
                             with open(out_path, "wb") as out_f:
                                 out_f.write(data)
                             extracted += 1
-                            continue
-                        if file_state == "Compressed":
-                            try:
-                                decompressed = zlib.decompress(data)
-                                out_path = os.path.join(out_dir, file_name)
-                                with open(out_path, "wb") as out_f:
-                                    out_f.write(
-                                        decompressed[
-                                            : min(len(decompressed), unpacked_size)
-                                        ]
-                                    )
+                        else:
+                            success = extract_dom_gold_file(
+                                data, file_name, out_dir, unpacked_size, errors
+                            )
+                            if success:
                                 extracted += 1
-                            except Exception as ex:
-                                errors.append(
-                                    f"{file_name}: Decompression failed (Compressed only): {ex}"
-                                )
-                            continue
-                        temp_data = bytearray(data)
-                        for i in range(len(temp_data)):
-                            temp_data[i] = (
-                                temp_data[i] - BMSNM_DECODE_ARRAY[i & 1023]
-                            ) % 256
-                        try:
-                            decompressed = zlib.decompress(temp_data)
-                            out_path = os.path.join(out_dir, file_name)
-                            with open(out_path, "wb") as out_f:
-                                out_f.write(
-                                    decompressed[
-                                        : min(len(decompressed), unpacked_size)
-                                    ]
-                                )
-                            extracted += 1
-                            continue
-                        except Exception:
-                            temp_data2 = bytearray(data)
-                            for i in range(len(temp_data2)):
-                                temp_data2[i] = (
-                                    temp_data2[i] - BRUTEFORCED_DECODE_ARRAY[i & 1023]
-                                ) % 256
-                            try:
-                                decompressed = zlib.decompress(
-                                    temp_data2, unpacked_size
-                                )
-                                out_path = os.path.join(out_dir, file_name)
-                                with open(out_path, "wb") as out_f:
-                                    out_f.write(
-                                        decompressed[
-                                            : min(len(decompressed), unpacked_size)
-                                        ]
-                                    )
-                                extracted += 1
-                                continue
-                            except Exception as ex2:
-                                errors.append(
-                                    f"{file_name}: Decompression failed with both decode arrays: {ex2}"
-                                )
-                                continue
+                        continue
                     else:
                         game_type = BMGameType.DawnOfMagic
                     if file_state in ("Encrypted", "Encrypted/Compressed"):
@@ -121,6 +71,12 @@ def extract_all_files(self):
                     if file_state in ("Encrypted/Compressed", "Compressed"):
                         try:
                             data = zlib.decompress(data)
+                            # Check for double-compressed (zlib header: 0x78)
+                            if len(data) > 2 and data[0] == 0x78:
+                                try:
+                                    data = zlib.decompress(data)
+                                except Exception:
+                                    pass  # If second decompress fails, keep first result
                             if len(data) < unpacked_size:
                                 pass
                         except Exception as ex:
@@ -142,7 +98,30 @@ def extract_all_files(self):
         self.status_label.setText("")
         msg = f"Extracted {extracted} files."
         if errors:
-            msg += "\n\nSome files could not be extracted:\n" + "\n".join(errors)
-        QMessageBox.information(self, "Extract All", msg)
+            msg += "\n\nSome files could not be extracted:"
+            from PyQt5.QtWidgets import (
+                QDialog,
+                QVBoxLayout,
+                QTextEdit,
+                QPushButton,
+                QLabel,
+            )
+
+            dlg = QDialog(self)
+            dlg.setWindowTitle("Extract All - Errors")
+            layout = QVBoxLayout()
+            text_edit = QTextEdit()
+            text_edit.setReadOnly(True)
+            text_edit.setPlainText("\n".join(errors))
+            layout.addWidget(QLabel(msg))
+            layout.addWidget(text_edit)
+            btn = QPushButton("OK")
+            btn.clicked.connect(dlg.accept)
+            layout.addWidget(btn)
+            dlg.setLayout(layout)
+            dlg.resize(600, 400)
+            dlg.exec_()
+        else:
+            QMessageBox.information(self, "Extract All", msg)
     except Exception as ex:
         QMessageBox.critical(self, "Extract All Error", str(ex))

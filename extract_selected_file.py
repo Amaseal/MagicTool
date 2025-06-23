@@ -5,6 +5,7 @@ from bmencoder import (
     BMEncoder,
     BMGameType,
 )
+from dom_gold_extract_helper import extract_dom_gold_file
 
 
 def extract_selected_file(self):
@@ -49,44 +50,19 @@ def extract_selected_file(self):
                 elif self.rb_bm_sm.isChecked():
                     game_type = BMGameType.BloodMagicSmokeAndMirrors
                 elif self.rb_dom_gold.isChecked():
-                    from bmencoder import BMSNM_DECODE_ARRAY, BRUTEFORCED_DECODE_ARRAY
-
-                    temp_data = bytearray(data)
-                    for i in range(len(temp_data)):
-                        temp_data[i] = (
-                            temp_data[i] - BMSNM_DECODE_ARRAY[i & 1023]
-                        ) % 256
-                    try:
-                        decompressed = zlib.decompress(temp_data)
+                    # Handle DOM Gold: write plain files directly, use helper for others
+                    if file_state == "Plain":
                         out_path = os.path.join(out_dir, file_name)
                         with open(out_path, "wb") as out_f:
-                            out_f.write(
-                                decompressed[: min(len(decompressed), unpacked_size)]
-                            )
+                            out_f.write(data)
                         extracted += 1
-                        continue
-                    except Exception as ex1:
-                        temp_data2 = bytearray(data)
-                        for i in range(len(temp_data2)):
-                            temp_data2[i] = (
-                                temp_data2[i] - BRUTEFORCED_DECODE_ARRAY[i & 1023]
-                            ) % 256
-                        try:
-                            decompressed = zlib.decompress(temp_data2)
-                            out_path = os.path.join(out_dir, file_name)
-                            with open(out_path, "wb") as out_f:
-                                out_f.write(
-                                    decompressed[
-                                        : min(len(decompressed), unpacked_size)
-                                    ]
-                                )
+                    else:
+                        success = extract_dom_gold_file(
+                            data, file_name, out_dir, unpacked_size, errors
+                        )
+                        if success:
                             extracted += 1
-                            continue
-                        except Exception as ex2:
-                            errors.append(
-                                f"{file_name}: Failed with both decode arrays. BMSNM: {ex1} | BRUTEFORCED: {ex2}"
-                            )
-                            continue
+                    continue
                 else:
                     game_type = BMGameType.DawnOfMagic
                 if file_state in ("Encrypted", "Encrypted/Compressed"):
@@ -94,15 +70,21 @@ def extract_selected_file(self):
                 if file_state in ("Encrypted/Compressed", "Compressed"):
                     try:
                         decompressed = zlib.decompress(data)
-                        out_path = os.path.join(out_dir, file_name)
-                        with open(out_path, "wb") as out_f:
-                            out_f.write(
-                                decompressed[: min(len(decompressed), unpacked_size)]
-                            )
-                        extracted += 1
-                        continue
-                    except Exception as exz:
-                        errors.append(f"{file_name}: zlib decompress failed: {exz}")
+                        # Check for double-compressed (zlib header: 0x78)
+                        if len(decompressed) > 2 and decompressed[0] == 0x78:
+                            try:
+                                decompressed2 = zlib.decompress(decompressed)
+                                data = decompressed2
+                            except Exception:
+                                data = decompressed  # If second decompress fails, keep first result
+                        else:
+                            data = decompressed
+                        if len(data) < unpacked_size:
+                            pass
+                    except Exception as ex:
+                        errors.append(
+                            f"{file_name}: {str(ex)} (Check game type selection)"
+                        )
                         continue
                 out_path = os.path.join(out_dir, file_name)
                 with open(out_path, "wb") as out_f:
