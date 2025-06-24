@@ -1,6 +1,6 @@
 import os
 import zlib
-from PyQt5.QtWidgets import QFileDialog, QMessageBox, QApplication
+from PyQt5.QtWidgets import QFileDialog, QApplication
 from bmencoder import (
     BMEncoder,
     BMGameType,
@@ -99,29 +99,14 @@ def extract_all_files(self):
         msg = f"Extracted {extracted} files."
         if errors:
             msg += "\n\nSome files could not be extracted:"
-            from PyQt5.QtWidgets import (
-                QDialog,
-                QVBoxLayout,
-                QTextEdit,
-                QPushButton,
-                QLabel,
-            )
+            from ui_helpers import show_dark_message
 
-            dlg = QDialog(self)
-            dlg.setWindowTitle("Extract All - Errors")
-            layout = QVBoxLayout()
-            text_edit = QTextEdit()
-            text_edit.setReadOnly(True)
-            text_edit.setPlainText("\n".join(errors))
-            layout.addWidget(QLabel(msg))
-            layout.addWidget(text_edit)
-            btn = QPushButton("OK")
-            btn.clicked.connect(dlg.accept)
-            layout.addWidget(btn)
-            dlg.setLayout(layout)
-            dlg.resize(600, 400)
-            dlg.exec_()
+            show_dark_message(self, "Extract All", msg + "\n" + "\n".join(errors))
         else:
-            QMessageBox.information(self, "Extract All", msg)
+            from ui_helpers import show_dark_message
+
+            show_dark_message(self, "Extract All", msg)
     except Exception as ex:
-        QMessageBox.critical(self, "Extract All Error", str(ex))
+        from ui_helpers import log_error_to_file
+
+        log_error_to_file(self, f"Extract All Error: {ex}")

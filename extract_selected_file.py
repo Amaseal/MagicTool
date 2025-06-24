@@ -1,17 +1,18 @@
 import os
 import zlib
-from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QFileDialog
 from bmencoder import (
     BMEncoder,
     BMGameType,
 )
 from dom_gold_extract_helper import extract_dom_gold_file
+from ui_helpers import show_dark_message
 
 
 def extract_selected_file(self):
     selected_rows = set(idx.row() for idx in self.table.selectionModel().selectedRows())
     if not selected_rows:
-        QMessageBox.information(
+        show_dark_message(
             self, "No selection", "Please select one or more files to extract."
         )
         return
@@ -85,6 +86,12 @@ def extract_selected_file(self):
                         errors.append(
                             f"{file_name}: {str(ex)} (Check game type selection)"
                         )
+                        from ui_helpers import log_error_to_file
+
+                        log_error_to_file(
+                            self,
+                            f"Extract Selected Error (decompress): {file_name}: {ex}",
+                        )
                         continue
                 out_path = os.path.join(out_dir, file_name)
                 with open(out_path, "wb") as out_f:
@@ -93,6 +100,8 @@ def extract_selected_file(self):
         msg = f"Extracted {extracted} file(s)."
         if errors:
             msg += "\n\nSome files could not be extracted:\n" + "\n".join(errors)
-        QMessageBox.information(self, "Extract Selected", msg)
+        show_dark_message(self, "Extract Selected", msg)
     except Exception as ex:
-        QMessageBox.critical(self, "Extract Selected Error", str(ex))
+        from ui_helpers import log_error_to_file
+
+        log_error_to_file(self, f"Extract Selected Error: {ex}")

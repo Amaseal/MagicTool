@@ -55,7 +55,11 @@ def export_decrypted_file(self):
                 exported += 1
         msg = f"Exported {exported} decrypted file(s)."
         if errors:
+            from ui_helpers import log_error_to_file
+
             msg += "\n\nSome files could not be exported:\n" + "\n".join(errors)
-        QMessageBox.information(self, "Export Decrypted", msg)
+            log_error_to_file(self, f"Export Decrypted Error: {msg}")
     except Exception as ex:
-        QMessageBox.critical(self, "Export Decrypted Error", str(ex))
+        from ui_helpers import log_error_to_file
+
+        log_error_to_file(self, f"Export Decrypted Error: {ex}")

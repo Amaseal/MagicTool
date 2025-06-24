@@ -1,4 +1,7 @@
 import sys
+import os
+
+os.environ["QT_STYLE_OVERRIDE"] = "Fusion"
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import (
     QApplication,
@@ -15,7 +18,6 @@ from PyQt5.QtWidgets import (
     QGroupBox,
     QLineEdit,
     QComboBox,
-    QMessageBox,
     QHeaderView,
 )
 from PyQt5.QtCore import Qt
@@ -29,12 +31,68 @@ from context_menu import open_context_menu, copy_selected_row
 from export_decrypted_file import export_decrypted_file
 
 
+class CustomTitleBar(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.setFixedHeight(36)
+        self.setStyleSheet("""
+            background-color: #181818;
+            color: #e0e0e0;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        """)
+        layout = QHBoxLayout(self)
+        layout.setContentsMargins(8, 0, 8, 0)
+        self.title = QLabel("MagicTool - BM File Viewer", self)
+        self.title.setStyleSheet("font-weight: bold; font-size: 12pt; color: #e0e0e0;")
+        layout.addWidget(self.title)
+        layout.addStretch()
+        self.min_btn = QPushButton("–", self)
+        self.min_btn.setFixedSize(28, 28)
+        self.min_btn.setStyleSheet(
+            "QPushButton { background: #232323; color: #e0e0e0; border: none; border-radius: 4px; } QPushButton:hover { background: #444; }"
+        )
+        self.min_btn.clicked.connect(self.minimize)
+        layout.addWidget(self.min_btn)
+        self.close_btn = QPushButton("×", self)
+        self.close_btn.setFixedSize(28, 28)
+        self.close_btn.setStyleSheet(
+            "QPushButton { background: #8B0000; color: #fff; border: none; border-radius: 4px; } QPushButton:hover { background: #a83232; }"
+        )
+        self.close_btn.clicked.connect(self.close_window)
+        layout.addWidget(self.close_btn)
+        self._mouse_pos = None
+
+    def minimize(self):
+        if self.parent:
+            self.parent.showMinimized()
+
+    def close_window(self):
+        if self.parent:
+            self.parent.close()
+
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self._mouse_pos = event.globalPos() - self.parent.frameGeometry().topLeft()
+            event.accept()
+
+    def mouseMoveEvent(self, event):
+        if self._mouse_pos and event.buttons() == Qt.LeftButton:
+            self.parent.move(event.globalPos() - self._mouse_pos)
+            event.accept()
+
+    def mouseReleaseEvent(self, event):
+        self._mouse_pos = None
+
+
 class BMViewer(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("MagicTool - BM File Viewer")
         import os
 
+        self.setWindowFlags(Qt.FramelessWindowHint)
         if getattr(sys, "frozen", False):
             icon_path = os.path.join(sys._MEIPASS, "magictool.ico")
         else:
@@ -46,6 +104,10 @@ class BMViewer(QMainWindow):
 
     def init_ui(self):
         main_layout = QVBoxLayout()
+        # Custom title bar
+        self.title_bar = CustomTitleBar(self)
+        main_layout.addWidget(self.title_bar)
+
         # Top: Label
         self.label = QLabel("Open a .bm file to view its contents.")
         main_layout.addWidget(self.label)
@@ -144,6 +206,9 @@ class BMViewer(QMainWindow):
         self.save_bm_btn = QPushButton("Save BM")
         self.combo_mode = QComboBox()
         self.combo_mode.addItems(["Plain", "Encryption", "Encryption/Compression"])
+        from PyQt5.QtWidgets import QListView
+
+        self.combo_mode.setView(QListView())  # Force non-native popup for dark styling
         create_layout.addWidget(self.combo_mode)
         create_layout.addWidget(self.add_files_btn)
         create_layout.addWidget(self.save_bm_btn)
@@ -257,11 +322,146 @@ class BMViewer(QMainWindow):
                         self.table.setItem(row, 5, QTableWidgetItem(state_str))
                 self.update_file_count_label()
             except Exception as ex:
-                QMessageBox.critical(self, "Error", str(ex))
+                from ui_helpers import show_dark_message
+
+                show_dark_message(self, "Error", str(ex))
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyle("Fusion")
     viewer = BMViewer()
+    # Set dark style sheet with dark red as primary color
+    dark_red = "#8B0000"
+    style = f"""
+        QWidget {{
+            background-color: #141414;
+            color: #e0e0e0;
+            font-size: 8pt;
+        }}
+        QGroupBox {{
+            border: 1px solid #424242;
+            margin-top: 10px;
+            color: #e0e0e0;
+        }}
+        QGroupBox::title {{
+            subcontrol-origin: margin;
+            subcontrol-position: top left;
+            padding: 0 3px;
+            color: white;
+        }}
+        QPushButton {{
+            background-color: {dark_red};
+            color: #fff;
+            border-radius: 4px;
+            padding: 6px 12px;
+        }}
+        QPushButton:hover {{
+            background-color: #a83232;
+        }}
+        QLineEdit, QComboBox, QTextEdit {{
+            background-color: #212121;
+            color: #fff;
+            border-radius: 4px;
+            padding: 6px 12px;
+            border: 1px solid #444;
+        }}
+        QComboBox QAbstractItemView {{
+            background-color: #232323;
+            color: #fff;
+            selection-background-color: #8B0000;
+            selection-color: #fff;
+            border-radius: 0 0 4px 4px;
+        }}
+        QComboBox::drop-down {{
+            background: #232323;
+            border-left: 1px solid #444;
+            width: 28px;
+        }}
+        QComboBox::down-arrow {{
+            image: none;
+            border: none;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #fff;
+            margin: 0 8px;
+        }}
+        QTableWidget {{
+            background-color: #141414;
+            color: #fff;
+            gridline-color: #444;
+            selection-background-color: {dark_red};
+            selection-color: #fff;
+        }}
+        QHeaderView::section {{
+            background-color: #212121;
+            color: #fff;
+            padding: 4px 2px;
+            border: none;
+        }}
+        QLabel {{ color: #e0e0e0; }}
+        QRadioButton {{
+            color: #e0e0e0;
+            spacing: 8px;
+            font-size: 10pt;
+        }}
+        QRadioButton::indicator {{
+            width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            border: 2px solid #8B0000;
+            background: #232323;
+        }}
+        QRadioButton::indicator:checked {{
+            background: #8B0000;
+            border: 2px solid #232323;
+        }}
+        QRadioButton::indicator:unchecked {{
+            background: #232323;
+            border: 2px solid #8B0000;
+        }}
+        QScrollBar:vertical {{
+            background: #232323;
+            width: 12px;
+            margin: 0px 0px 0px 0px;
+            border-radius: 6px;
+        }}
+        QScrollBar::handle:vertical {{
+            background: #8B0000;
+            min-height: 20px;
+            border-radius: 6px;
+        }}
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+            background: #141414;
+            height: 0px;
+        }}
+        QScrollBar:horizontal {{
+            background: #232323;
+            height: 12px;
+            margin: 0px 0px 0px 0px;
+            border-radius: 6px;
+        }}
+        QScrollBar::handle:horizontal {{
+            background: #8B0000;
+            min-width: 20px;
+            border-radius: 6px;
+        }}
+        QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{
+            background: none;
+            width: 0px;
+        }}
+        /* Ensure table scrollbars are dark */
+        QTableWidget QScrollBar:vertical, QTableWidget QScrollBar:horizontal {{
+            background: #232323;
+        }}
+        /* Style the top-left corner cell */
+        QTableCornerButton::section {{
+            background: #212121;
+            border: 1px solid #444;
+        }}
+    """
+    viewer.setStyleSheet(style)
     viewer.show()
     sys.exit(app.exec_())

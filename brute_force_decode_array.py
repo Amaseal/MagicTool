@@ -28,7 +28,9 @@ def brute_force_decode_array(self, array_len=1024):
             f.seek(offset)
             encoded = f.read(packed_size)
     except Exception as ex:
-        QMessageBox.critical(self, "Error", f"Failed to read encoded data: {ex}")
+        from ui_helpers import log_error_to_file
+
+        log_error_to_file(self, f"Failed to read encoded data: {ex}")
         return None
     # Prompt for expected (decrypted) file
     expected_path, _ = QFileDialog.getOpenFileName(
@@ -40,7 +42,9 @@ def brute_force_decode_array(self, array_len=1024):
         with open(expected_path, "rb") as f:
             expected = f.read()
     except Exception as ex:
-        QMessageBox.critical(self, "Error", f"Failed to read expected file: {ex}")
+        from ui_helpers import log_error_to_file
+
+        log_error_to_file(self, f"Failed to read expected file: {ex}")
         return None
     # Brute force
     brute_array = bytearray(array_len)
