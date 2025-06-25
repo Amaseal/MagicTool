@@ -17,6 +17,7 @@ from PyQt5.QtWidgets import (
     QRadioButton,
     QGroupBox,
     QLineEdit,
+    QCheckBox,
     QComboBox,
     QHeaderView,
 )
@@ -25,7 +26,7 @@ from extract_all_files import extract_all_files
 from extract_selected_file import extract_selected_file
 from add_files import add_files
 from save_bm import save_bm
-from ui_helpers import update_file_count_label, search_table
+from ui_helpers import update_file_count_label, search_table, reset_table_filter
 from brute_force_decode_array import brute_force_decode_array
 from context_menu import open_context_menu, copy_selected_row
 from export_decrypted_file import export_decrypted_file
@@ -172,11 +173,21 @@ class BMViewer(QMainWindow):
         search_box_layout = QHBoxLayout()
         self.search_box = QLineEdit()
         self.search_box.setPlaceholderText("Type to search...")
+        self.search_box.returnPressed.connect(lambda: search_table(self))
         self.search_btn = QPushButton("Search")
         self.search_btn.clicked.connect(lambda: search_table(self))
+        self.reset_btn = QPushButton("Reset")
+        self.reset_btn.clicked.connect(lambda: reset_table_filter(self))
         search_box_layout.addWidget(self.search_box)
         search_box_layout.addWidget(self.search_btn)
+        search_box_layout.addWidget(self.reset_btn)
         search_layout.addLayout(search_box_layout)
+        # Add decompile checkbox below search bar in a new layout
+        decompile_layout = QHBoxLayout()
+        self.decompile_lua_checkbox = QCheckBox("Decompile Lua files after extraction")
+        self.decompile_lua_checkbox.setChecked(True)
+        decompile_layout.addWidget(self.decompile_lua_checkbox)
+        search_layout.addLayout(decompile_layout)
         search_group.setLayout(search_layout)
 
         # Extraction buttons

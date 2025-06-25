@@ -5,7 +5,8 @@ from bmencoder import (
     BMEncoder,
     BMGameType,
 )
-from dom_gold_extract_helper import extract_dom_gold_file
+from lua_helpers import is_lua_50_bytecode, decompile_lua_bytecode
+from java_check import is_java_installed
 
 
 def extract_all_files(self):
@@ -17,6 +18,7 @@ def extract_all_files(self):
     file_path = self.label.text().replace("Loaded: ", "").strip()
     errors = []
     extracted = 0
+    java_warning_shown = False
     try:
         with open(file_path, "rb") as f:
             for row in range(self.table.rowCount()):
@@ -51,19 +53,7 @@ def extract_all_files(self):
                     elif self.rb_bm_sm.isChecked():
                         game_type = BMGameType.BloodMagicSmokeAndMirrors
                     elif self.rb_dom_gold.isChecked():
-                        # Handle DOM Gold: write plain files directly, use helper for others
-                        if file_state == "Plain":
-                            out_path = os.path.join(out_dir, file_name)
-                            with open(out_path, "wb") as out_f:
-                                out_f.write(data)
-                            extracted += 1
-                        else:
-                            success = extract_dom_gold_file(
-                                data, file_name, out_dir, unpacked_size, errors
-                            )
-                            if success:
-                                extracted += 1
-                        continue
+                        game_type = BMGameType.DawnOfMagicGold
                     else:
                         game_type = BMGameType.DawnOfMagic
                     if file_state in ("Encrypted", "Encrypted/Compressed"):
@@ -86,10 +76,33 @@ def extract_all_files(self):
                             continue
                     out_path = os.path.join(out_dir, file_name)
                     with open(out_path, "wb") as out_f:
-                        if file_state == "Plain":
-                            out_f.write(data)
-                        else:
-                            out_f.write(data[: min(len(data), unpacked_size)])
+                        out_f.write(data[:unpacked_size])
+                    # Only decompile Lua if checkbox is checked
+                    if (
+                        self.decompile_lua_checkbox.isChecked()
+                        and file_name.lower().endswith(".lua")
+                        and is_lua_50_bytecode(data[:unpacked_size])
+                    ):
+                        self.status_label.setText(f"Decompiling Lua: {file_name}")
+                        QApplication.processEvents()
+                        if is_java_installed(parent=None):
+                            decompiled_path = out_path + ".decompiled.lua"
+                            success = decompile_lua_bytecode(
+                                out_path, decompiled_path, parent=self
+                            )
+                            if not success:
+                                errors.append(
+                                    f"{file_name}: Failed to decompile Lua bytecode."
+                                )
+                        elif not java_warning_shown:
+                            from ui_helpers import show_dark_message
+
+                            show_dark_message(
+                                self,
+                                "Java Not Found",
+                                "Java is not installed or not in PATH. Lua decompilation will be skipped.",
+                            )
+                            java_warning_shown = True
                     extracted += 1
                 except Exception as ex:
                     errors.append(

@@ -1,0 +1,7 @@
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value
+Extract Selected Error: cannot access local variable 'show_dark_message' where it is not associated with a value

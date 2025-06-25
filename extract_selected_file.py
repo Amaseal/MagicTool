@@ -1,12 +1,14 @@
 import os
 import zlib
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QApplication
 from bmencoder import (
     BMEncoder,
     BMGameType,
 )
-from dom_gold_extract_helper import extract_dom_gold_file
 from ui_helpers import show_dark_message
+from lua_helpers import is_lua_50_bytecode, decompile_lua_bytecode
+
+from java_check import is_java_installed
 
 
 def extract_selected_file(self):
@@ -24,7 +26,7 @@ def extract_selected_file(self):
     extracted = 0
     try:
         with open(file_path, "rb") as f:
-            for row in selected_rows:
+            for idx, row in enumerate(selected_rows):
                 file_name_item = self.table.item(row, 0)
                 unpacked_size_item = self.table.item(row, 1)
                 packed_size_item = self.table.item(row, 2)
@@ -44,6 +46,11 @@ def extract_selected_file(self):
                 packed_size = int(packed_size_item.text())
                 offset = int(offset_item.text())
                 file_state = file_state_item.text()
+                # Show extraction progress
+                self.status_label.setText(
+                    f"Extracting file: {file_name} ({idx + 1}/{len(selected_rows)})"
+                )
+                QApplication.processEvents()
                 f.seek(offset)
                 data = bytearray(f.read(packed_size))
                 if self.rb_bm.isChecked():
@@ -51,19 +58,7 @@ def extract_selected_file(self):
                 elif self.rb_bm_sm.isChecked():
                     game_type = BMGameType.BloodMagicSmokeAndMirrors
                 elif self.rb_dom_gold.isChecked():
-                    # Handle DOM Gold: write plain files directly, use helper for others
-                    if file_state == "Plain":
-                        out_path = os.path.join(out_dir, file_name)
-                        with open(out_path, "wb") as out_f:
-                            out_f.write(data)
-                        extracted += 1
-                    else:
-                        success = extract_dom_gold_file(
-                            data, file_name, out_dir, unpacked_size, errors
-                        )
-                        if success:
-                            extracted += 1
-                    continue
+                    game_type = BMGameType.DawnOfMagicGold
                 else:
                     game_type = BMGameType.DawnOfMagic
                 if file_state in ("Encrypted", "Encrypted/Compressed"):
@@ -93,10 +88,28 @@ def extract_selected_file(self):
                             f"Extract Selected Error (decompress): {file_name}: {ex}",
                         )
                         continue
+                # Always write only the first unpacked_size bytes after decoding/decompression
                 out_path = os.path.join(out_dir, file_name)
                 with open(out_path, "wb") as out_f:
-                    out_f.write(data[: min(len(data), unpacked_size)])
+                    out_f.write(data[:unpacked_size])
+                # If file is .lua and is Lua 5.0 bytecode, try to decompile
+                if file_name.lower().endswith(".lua") and is_lua_50_bytecode(
+                    data[:unpacked_size]
+                ):
+                    self.status_label.setText(f"Decompiling Lua: {file_name}")
+                    QApplication.processEvents()
+                    if is_java_installed(parent=self):
+                        decompiled_path = out_path + ".decompiled.lua"
+                        success = decompile_lua_bytecode(
+                            out_path, decompiled_path, parent=self
+                        )
+                        if not success:
+                            errors.append(
+                                f"{file_name}: Failed to decompile Lua bytecode."
+                            )
+                    # If Java is not installed, just skip decompilation and do not append error
                 extracted += 1
+        self.status_label.setText("")
         msg = f"Extracted {extracted} file(s)."
         if errors:
             msg += "\n\nSome files could not be extracted:\n" + "\n".join(errors)

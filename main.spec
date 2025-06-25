@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('magictool.ico', '.')],
+    datas=[('magictool.ico', '.'), ('unluac.jar', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
