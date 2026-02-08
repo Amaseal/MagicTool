@@ -34,6 +34,8 @@ class BMEncoder:
             BMEncoder.decode_dom_gold(buffer)
         else:
             arr = BMEncoder.get_decode_array(game_type)
+            if arr is None:
+                raise ValueError(f"Unknown or unsupported game type: {game_type}")
             for i in range(len(buffer)):
                 buffer[i] = (buffer[i] - arr[i & 1023]) % 256
 
@@ -61,5 +63,7 @@ class BMEncoder:
     @staticmethod
     def encode(buffer, game_type):
         arr = BMEncoder.get_decode_array(game_type)
+        if arr is None:
+            raise ValueError(f"Unknown or unsupported game type: {game_type}")
         for i in range(len(buffer)):
             buffer[i] = (buffer[i] + arr[i & 1023]) % 256

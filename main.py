@@ -242,9 +242,10 @@ class BMViewer(QMainWindow):
         self.setCentralWidget(container)
 
         # Connect buttons
-        # self.add_files_btn.clicked.connect(lambda: add_files(self))  # Removed duplicate connection
-        # self.save_bm_btn.clicked.connect(lambda: save_bm(self))      # Removed duplicate connection
-        # self.extract_all_btn.clicked.connect(lambda: extract_all_files(self))  # Removed duplicate connection
+        # Connect buttons
+        self.add_files_btn.clicked.connect(self.add_files)
+        self.save_bm_btn.clicked.connect(self.save_bm)
+        self.extract_all_btn.clicked.connect(self.extract_all_files)
 
     def update_file_count_label(self):
         update_file_count_label(self)
